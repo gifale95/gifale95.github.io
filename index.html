@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alessandro Gifford — Computational Neuroscientist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="icon" type="image/png" href="image_self_round.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ──────────────────────────────────────── */
+    :root {
+      --ease: cubic-bezier(.4,0,.2,1);
+      --bg:          #f5f4f0;
+      --bg-card:     #eeede8;
+      --bg-hover:    #e6e4dd;
+      --ink:         #1a1917;
+      --ink-mid:     #4a4844;
+      --ink-soft:    #8a8880;
+      --rule:        #d4d2cb;
+      --accent:      #1a1917;
+      --accent-glow: rgba(26,25,23,.08);
+      --tag-bg:      #e0dfd9;
+      --tag-ink:     #4a4844;
+      --pill-active-bg:  #1a1917;
+      --pill-active-ink: #f5f4f0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg:          #111110;
+        --bg-card:     #1a1918;
+        --bg-hover:    #232220;
+        --ink:         #f0ede6;
+        --ink-mid:     #b0ada6;
+        --ink-soft:    #706d68;
+        --rule:        #2c2b28;
+        --accent:      #f0ede6;
+        --accent-glow: rgba(240,237,230,.06);
+        --tag-bg:      #252420;
+        --tag-ink:     #a0ada6;
+        --pill-active-bg:  #f0ede6;
+        --pill-active-ink: #111110;
+      }
+    }
+    [data-theme="dark"] {
+      --bg:          #111110;
+      --bg-card:     #1a1918;
+      --bg-hover:    #232220;
+      --ink:         #f0ede6;
+      --ink-mid:     #b0ada6;
+      --ink-soft:    #706d68;
+      --rule:        #2c2b28;
+      --accent:      #f0ede6;
+      --accent-glow: rgba(240,237,230,.06);
+      --tag-bg:      #252420;
+      --tag-ink:     #a0ada6;
+      --pill-active-bg:  #f0ede6;
+      --pill-active-ink: #111110;
+    }
+    [data-theme="light"] {
+      --bg:          #f5f4f0;
+      --bg-card:     #eeede8;
+      --bg-hover:    #e6e4dd;
+      --ink:         #1a1917;
+      --ink-mid:     #4a4844;
+      --ink-soft:    #8a8880;
+      --rule:        #d4d2cb;
+      --accent:      #1a1917;
+      --accent-glow: rgba(26,25,23,.08);
+      --tag-bg:      #e0dfd9;
+      --tag-ink:     #4a4844;
+      --pill-active-bg:  #1a1917;
+      --pill-active-ink: #f5f4f0;
+    }
+
+    /* ── RESET ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      transition: background .3s var(--ease), color .3s var(--ease);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    /* ── LAYOUT ──────────────────────────────────────── */
+    .container { max-width: 880px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--bg); border-bottom: 1px solid var(--rule);
+      transition: background .3s var(--ease), border-color .3s var(--ease);
+    }
+    .nav-inner {
+      max-width: 880px; margin: 0 auto; padding: 0 2rem;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 400;
+      color: var(--ink-soft); letter-spacing: .08em; text-transform: uppercase;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      font-family: 'Outfit', sans-serif; font-size: .82rem; font-weight: 400;
+      color: var(--ink-mid); letter-spacing: .01em; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-right { display: flex; align-items: center; gap: .7rem; }
+
+    .nav-cv-btn {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: var(--ink); color: var(--bg); border: none; border-radius: 4px;
+      padding: 5px 13px; font-family: 'Outfit', sans-serif; font-size: .78rem;
+      font-weight: 500; cursor: pointer; text-decoration: none; transition: opacity .2s;
+    }
+    .nav-cv-btn:hover { opacity: .72; }
+
+    .theme-toggle {
+      background: none; border: 1px solid var(--rule); border-radius: 20px;
+      padding: 4px 10px; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      color: var(--ink-soft); font-size: .72rem; font-family: 'DM Mono', monospace;
+      letter-spacing: .04em; transition: border-color .2s, color .2s, background .2s;
+    }
+    .theme-toggle:hover { border-color: var(--ink-soft); color: var(--ink); background: var(--accent-glow); }
+
+    .hamburger { display: none; flex-direction: column; gap: 4px; background: none; border: none; cursor: pointer; padding: 6px; }
+    .hamburger span { display: block; width: 20px; height: 1.5px; background: var(--ink-mid); transition: transform .25s, opacity .25s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 56px; left: 0; right: 0;
+      background: var(--bg); border-bottom: 1px solid var(--rule);
+      padding: 1.5rem 2rem 2rem; z-index: 99; flex-direction: column; gap: 1.25rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: .95rem; color: var(--ink-mid); letter-spacing: .01em;
+      padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule);
+    }
+    .mobile-menu a:last-child { border-bottom: none; padding-bottom: 0; }
+
+    /* ── SECTIONS ────────────────────────────────────── */
+    main { padding-top: 56px; }
+    section { padding: 5rem 0; border-bottom: 1px solid var(--rule); }
+    section:last-child { border-bottom: none; }
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--ink-soft); margin-bottom: 2.5rem;
+    }
+
+    /* ── HERO ────────────────────────────────────────── */
+    #hero { padding-top: 5.5rem; padding-bottom: 5rem; border-bottom: 1px solid var(--rule); }
+    .hero-layout {
+      display: grid; grid-template-columns: 160px 1fr;
+      gap: 3rem; align-items: start;
+    }
+
+    /* Photo */
+    .hero-photo-wrap {
+      opacity: 0; transform: translateY(10px);
+      animation: fadeUp .6s var(--ease) .1s forwards;
+    }
+    .hero-photo {
+      width: 150px; height: 150px; border-radius: 50%;
+      object-fit: cover; border: 2px solid var(--rule);
+    }
+    .hero-photo-placeholder {
+      width: 150px; height: 150px; border-radius: 50%;
+      border: 2px dashed var(--rule); background: var(--bg-card);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: .5rem; color: var(--ink-soft);
+    }
+    .hero-photo-placeholder svg { opacity: .35; }
+    .hero-photo-placeholder span {
+      font-family: 'DM Mono', monospace; font-size: .58rem;
+      letter-spacing: .08em; text-align: center; opacity: .5;
+    }
+
+    /* Hero text */
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.1rem;
+      opacity: 0; transform: translateY(8px); animation: fadeUp .6s var(--ease) .18s forwards;
+    }
+    .hero-name {
+      font-family: 'Outfit', sans-serif; font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 600; line-height: 1.05; letter-spacing: -.02em; color: var(--ink);
+      margin-bottom: 1.2rem; opacity: 0; transform: translateY(12px);
+      animation: fadeUp .65s var(--ease) .26s forwards;
+    }
+    .hero-desc {
+      max-width: 520px; font-size: .96rem; line-height: 1.78; font-weight: 300;
+      color: var(--ink-mid); margin-bottom: 2.2rem; opacity: 0; transform: translateY(12px);
+      animation: fadeUp .65s var(--ease) .36s forwards;
+    }
+    .hero-links {
+      display: flex; gap: .9rem; flex-wrap: wrap;
+      opacity: 0; transform: translateY(10px); animation: fadeUp .65s var(--ease) .46s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .4rem; padding: .62rem 1.25rem;
+      border-radius: 4px; font-family: 'Outfit', sans-serif; font-size: .82rem;
+      font-weight: 500; letter-spacing: .01em; cursor: pointer;
+      transition: background .2s, color .2s, transform .15s, opacity .2s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--ink); color: var(--bg); border: none; }
+    .btn-primary:hover { opacity: .72; }
+    .btn-ghost { border: 1px solid var(--rule); color: var(--ink-mid); background: transparent; }
+    .btn-ghost:hover { border-color: var(--ink-soft); color: var(--ink); background: var(--accent-glow); }
+
+    /* ── ABOUT ───────────────────────────────────────── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem 4rem; align-items: start; }
+    .about-text p { font-size: .95rem; line-height: 1.85; color: var(--ink-mid); font-weight: 300; margin-bottom: 1.2rem; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-sidebar { display: flex; flex-direction: column; gap: 2rem; }
+    .sidebar-block h4 {
+      font-family: 'DM Mono', monospace; font-size: .68rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1rem;
+    }
+    .sidebar-item {
+      display: flex; flex-direction: column; gap: .2rem;
+      padding-bottom: .9rem; border-bottom: 1px solid var(--rule); margin-bottom: .9rem;
+    }
+    .sidebar-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .sidebar-item-title { font-size: .88rem; font-weight: 500; color: var(--ink); }
+    .sidebar-item-sub { font-size: .8rem; color: var(--ink-soft); }
+
+    /* ── PUBLICATIONS ────────────────────────────────── */
+    .pub-filter-row {
+      display: flex; align-items: center; gap: .4rem;
+      flex-wrap: wrap; margin-bottom: 2.5rem;
+    }
+    .pub-filter-divider {
+      width: 1px; height: 18px; background: var(--rule);
+      margin: 0 .2rem; flex-shrink: 0; align-self: center;
+    }
+    .pill {
+      font-family: 'DM Mono', monospace; font-size: .67rem; letter-spacing: .07em;
+      padding: .3rem .78rem; border-radius: 20px; border: 1px solid var(--rule);
+      color: var(--ink-soft); cursor: pointer; background: transparent;
+      transition: all .18s var(--ease); white-space: nowrap;
+    }
+    .pill:hover { border-color: var(--ink-soft); color: var(--ink); }
+    .pill.active { background: var(--pill-active-bg); color: var(--pill-active-ink); border-color: var(--pill-active-bg); }
+
+    .pub-list { display: flex; flex-direction: column; }
+    .pub-item {
+      display: grid; grid-template-columns: 44px 1fr;
+      gap: 1.2rem; padding: 1.6rem 0; border-bottom: 1px solid var(--rule);
+      transition: opacity .25s;
+    }
+    .pub-item.hidden { display: none; }
+    .pub-year { font-family: 'DM Mono', monospace; font-size: .7rem; color: var(--ink-soft); padding-top: .2rem; }
+    .pub-title { font-size: .95rem; font-weight: 500; line-height: 1.5; color: var(--ink); margin-bottom: .35rem; }
+    .pub-authors { font-size: .82rem; color: var(--ink-soft); font-weight: 300; margin-bottom: .25rem; }
+    .pub-authors strong { color: var(--ink-mid); font-weight: 500; }
+    .pub-venue { font-size: .8rem; color: var(--ink-soft); font-style: italic; margin-bottom: .65rem; }
+    .pub-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin-bottom: .6rem; }
+    .pub-tag {
+      font-family: 'DM Mono', monospace; font-size: .62rem; letter-spacing: .05em;
+      padding: .18rem .55rem; border-radius: 3px; background: var(--tag-bg); color: var(--tag-ink);
+    }
+    /* Resource link boxes */
+    .pub-links { display: flex; gap: .35rem; flex-wrap: wrap; }
+    .pub-res-link {
+      display: inline-flex; align-items: center; gap: .28rem;
+      font-family: 'DM Mono', monospace; font-size: .62rem; letter-spacing: .07em;
+      text-transform: uppercase; padding: .22rem .65rem; border-radius: 3px;
+      border: 1px solid var(--rule); color: var(--ink-soft); background: transparent;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .pub-res-link:hover { border-color: var(--ink); color: var(--ink); background: var(--accent-glow); }
+
+    /* ── CONTACT ─────────────────────────────────────── */
+    .contact-intro {
+      max-width: 560px; font-size: .95rem; line-height: 1.8;
+      font-weight: 300; color: var(--ink-mid); margin-bottom: 2.5rem;
+    }
+    .contact-links-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border-top: 1px solid var(--rule);
+    }
+    .contact-link-item {
+      display: flex; flex-direction: column; gap: .2rem;
+      padding: 1rem 1.5rem 1rem 0; border-bottom: 1px solid var(--rule);
+    }
+    .contact-link-item:nth-child(even) {
+      padding-left: 1.5rem; padding-right: 0; border-left: 1px solid var(--rule);
+    }
+    .contact-link-label {
+      font-family: 'DM Mono', monospace; font-size: .63rem;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft);
+    }
+    .contact-link-val { font-size: .88rem; color: var(--ink-mid); transition: color .15s; word-break: break-all; }
+    .contact-link-val:hover { color: var(--ink); }
+
+    .cv-section-btn {
+      display: inline-flex; align-items: center; gap: .45rem; margin-top: 2rem;
+      padding: .65rem 1.4rem; border-radius: 4px; background: var(--ink); color: var(--bg);
+      font-family: 'Outfit', sans-serif; font-size: .84rem; font-weight: 500;
+      cursor: pointer; text-decoration: none; transition: opacity .2s;
+    }
+    .cv-section-btn:hover { opacity: .72; }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer { padding: 2.5rem 0; border-top: 1px solid var(--rule); }
+    .footer-inner {
+      max-width: 880px; margin: 0 auto; padding: 0 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-family: 'DM Mono', monospace; font-size: .65rem; color: var(--ink-soft); letter-spacing: .06em; }
+
+    /* ── ANIMATIONS ──────────────────────────────────── */
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s var(--ease), transform .55s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 680px) {
+      .container { padding: 0 1.25rem; }
+      .nav-inner  { padding: 0 1.25rem; }
+      .nav-links  { display: none; }
+      .hamburger  { display: flex; }
+      .nav-cv-btn .cv-label { display: none; }
+
+      section { padding: 3.5rem 0; }
+      #hero   { padding-top: 3.5rem; padding-bottom: 3rem; }
+
+      .hero-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-photo-wrap { display: flex; flex-direction: row; align-items: center; gap: 1.2rem; }
+      .hero-photo, .hero-photo-placeholder { width: 150px; height: 150px; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      .contact-links-grid { grid-template-columns: 1fr; }
+      .contact-link-item { padding-left: 0 !important; border-left: none !important; }
+
+      .pub-item { grid-template-columns: 38px 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: .5rem; }
+      .mobile-menu { padding: 1.5rem 1.25rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="https://www.alegifford.com/" class="nav-logo">Alessandro Gifford</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#publications">Publications</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-right">
+        <a href="cv_gifford.pdf" target="_blank" rel="noopener" class="nav-cv-btn" title="Open CV">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M2 1h6.5L11 3.5V12H2V1z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/>
+            <path d="M8 1v3h3" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+            <path d="M4 6.5h5M4 8.5h3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+          <span class="cv-label">CV</span>
+        </a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span id="themeIcon">○</span>
+          <span id="themeLabel">auto</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about"        onclick="closeMobile()">About</a>
+    <a href="#publications" onclick="closeMobile()">Publications</a>
+    <a href="#contact"      onclick="closeMobile()">Contact</a>
+    <a href="cv_gifford.pdf" target="_blank" rel="noopener" onclick="closeMobile()">CV ↗</a>
+  </div>
+
+  <main>
+
+    <!-- ── HERO ── -->
+    <section id="hero">
+      <div class="container">
+        <div class="hero-layout">
+
+          <!-- ① Photo — replace placeholder with <img src="photo.jpg" … class="hero-photo"> -->
+          <div class="hero-photo-wrap">
+            <img src="image_self_round.png" alt="Alessandro Gifford" class="hero-photo">
+          </div>
+
+          <!-- Text -->
+          <div class="hero-text">
+            <p class="hero-eyebrow">Postdoctoral Researcher · Berlin</p>
+            <h1 class="hero-name">Alessandro Gifford</h1>
+            <p class="hero-desc">
+              I study the neural algorithm and representational content underlying visual processing, using a combination of large-scale neural datasets, computational modeling, and machine learning.
+            </p>
+            <div class="hero-links">
+              <a href="#publications" class="btn btn-primary">Publications</a>
+              <a href="#contact"      class="btn btn-ghost">Contact</a>
+              <a href="cv_gifford.pdf" target="_blank" rel="noopener" class="btn btn-ghost">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                  <path d="M2 1h6.5L11 3.5V12H2V1z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/>
+                  <path d="M8 1v3h3" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+                  <path d="M4 6.5h5M4 8.5h3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+                </svg>
+                CV
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ABOUT ── -->
+    <section id="about">
+      <div class="container">
+        <p class="section-label reveal">About</p>
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p>
+              I'm a postdoctoral researcher in cognitive computational visual neuroscience at the <a href="https://www.fu-berlin.de/en/index.html" target="_blank" rel="noopener">Freie Universität Berlin</a>, Germany, in the <em><a href="https://www.ewi-psy.fu-berlin.de/en/psychologie/arbeitsbereiche/neural_dyn_of_vis_cog/index.html" target="_blank" rel="noopener">Neural Dynamics of Visual Cognition Lab</a></em> led by <a href="http://userpage.fu-berlin.de/rmcichy/" target="_blank" rel="noopener">Radoslaw Cichy</a>
+            </p>
+            <p>
+              People do science for many different reasons. As for me, I deeply enjoy intellectual challenges, and I see science as a great opportunity to think, explore, discover, and create.
+            </p>
+            <p>
+             Besides scientific research, things in life that I appreciate are: philosophy, learning, open and honest communication, movies (independent/arthouse), electronic music, playing Frisbee, mountain hikes, sleeping.
+            </p>
+          </div>
+          <div class="about-sidebar reveal">
+            <div class="sidebar-block">
+              <h4>Positions</h4>
+              <div class="sidebar-item">
+                <span class="sidebar-item-title">Postdoctoral Researcher</span>
+                <span class="sidebar-item-sub">Freie Universität Berlin · 2026 – present</span>
+              </div>
+            </div>
+            <div class="sidebar-block">
+              <h4>Education</h4>
+              <div class="sidebar-item">
+                <span class="sidebar-item-title">PhD Computational Visual Neuroscience</span>
+                <span class="sidebar-item-sub">Freie Universität Berlin · 2020 – 2025</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-title">MSc Cognitive Science</span>
+                <span class="sidebar-item-sub">CIMeC · 2017 – 2019</span>
+              </div>
+              <div class="sidebar-item">
+                <span class="sidebar-item-title">BA Philosophy</span>
+                <span class="sidebar-item-sub">University of Trento · 2014 – 2017</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PUBLICATIONS ── -->
+    <section id="publications">
+      <div class="container">
+        <p class="section-label reveal">Publications</p>
+
+        <!--
+          Filters: topic group | divider | year group
+          Year pills are injected automatically by JS from data-year attributes.
+        -->
+        <div class="pub-filter-row reveal" id="filterRow">
+          <button class="pill active" data-type="topic" data-filter="all">All</button>
+          <button class="pill" data-type="topic" data-filter="in-silico-neuroscience">In silico neuroscience</button>
+          <button class="pill" data-type="topic" data-filter="representational-content">Representational content</button>
+          <button class="pill" data-type="topic" data-filter="neural-encoding">Neural encoding</button>
+          <button class="pill" data-type="topic" data-filter="neural-decoding">Neural decoding</button>
+          <button class="pill" data-type="topic" data-filter="rsa">RSA</button>
+          <button class="pill" data-type="topic" data-filter="ood-generalization">OOD generalization</button>
+          <button class="pill" data-type="topic" data-filter="neural-control">Neural control</button>
+          <button class="pill" data-type="topic" data-filter="neural-alignment">Neural alignment</button>
+          <button class="pill" data-type="topic" data-filter="resource">Resource</button>
+          <button class="pill" data-type="topic" data-filter="community-event">Community event</button>
+          <button class="pill" data-type="topic" data-filter="fmri">fMRI</button>
+          <button class="pill" data-type="topic" data-filter="eeg">EEG</button>
+          <button class="pill" data-type="topic" data-filter="animal-data">Animal data</button>
+          <button class="pill" data-type="topic" data-filter="image-stimuli">Image stimuli</button>
+          <button class="pill" data-type="topic" data-filter="video-stimuli">Video stimuli</button>
+          <button class="pill" data-type="topic" data-filter="linguistic-stimuli">Linguistic stimuli</button>
+          <button class="pill" data-type="topic" data-filter="multimodal-stimuli">Multimodal stimuli</button>
+          <div class="pub-filter-divider"></div>
+          <button class="pill active" data-type="year" data-filter="all-years">All years</button>
+          <!-- additional year pills appended by JS -->
+        </div>
+
+        <div class="pub-list reveal">
+
+          <!-- ─────────────────────────────────────────────────────
+               HOW TO ADD A PUBLICATION:
+               Copy one <div class="pub-item"> block.
+               • data-tags : space-separated topic tags matching filter pills
+               • data-year : 4-digit year
+               • Add/remove .pub-res-link <a> tags as needed (Paper, Data, Code, Poster, Slides, Talk …)
+               • Replace href="#" with actual URLs
+          ───────────────────────────────────────────────────────── -->
+
+          <div class="pub-item" data-tags="in-silico-neuroscience neural-encoding resource fmri eeg animal-data image-stimuli video-stimuli linguistic-stimuli multimodal-stimuli" data-year="2026">
+            <span class="pub-year">2026</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://gifale95.github.io/BERG/" target="_blank">The Brain Encoding Response Generator (BERG)</a></p>
+              <p class="pub-authors"><strong>Gifford AT</strong>, Bersch D, Janini D, Roig G, Cichy RM</p>
+              <p class="pub-venue">In preparation</p>
+              <div class="pub-tags">
+                <span class="pub-tag">in-silico-neuroscience</span>
+                <span class="pub-tag">neural-encoding</span>
+                <span class="pub-tag">resource</span>
+                <span class="pub-tag">fmri</span>
+                <span class="pub-tag">eeg</span>
+                <span class="pub-tag">animal-data</span>
+                <span class="pub-tag">image-stimuli</span>
+                <span class="pub-tag">video-stimuli</span>
+                <span class="pub-tag">languistic-stimuli</span>
+                <span class="pub-tag">multimodal-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://gifale95.github.io/BERG/" target="_blank" class="pub-res-link">Website</a>
+                <a href="https://2025.ccneuro.org/poster/?id=dIxr3CPuPR" target="_blank" class="pub-res-link">Paper</a>
+                <a href="https://github.com/gifale95/BERG" target="_blank" class="pub-res-link">Python toolbox</a>
+                <a href="https://brain-encoding-response-generator.s3.us-west-2.amazonaws.com/index.html" target="_blank" class="pub-res-link">Data</a>
+                <a href="https://youtube.com/playlist?list=PLAkLSNuCebPOIe_bo6Mcf1aBRcinKbvn0&si=zaxkhDhJATFBmI7d" target="_blank" class="pub-res-link">Video</a>
+                <a href="https://drive.google.com/drive/folders/1FEhEdbfVWFvHHsfyrk-J4MCtXhCBz7Q7?usp=drive_link" target="_blank" class="pub-res-link">Poster</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="neural-encoding ood-generalization resource fmri image-stimuli" data-year="2026">
+            <span class="pub-year">2026</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://doi.org/10.1038/s41467-026-69345-9" target="_blank">A 7T fMRI dataset of synthetic images for out-of-distribution modeling of vision</a></p>
+              <p class="pub-authors"><strong>Gifford AT</strong>, Cichy RM, Naselaris T, Kay K</p>
+              <p class="pub-venue">Nature Communications</p>
+              <div class="pub-tags">
+                <span class="pub-tag">neural-encoding</span>
+                <span class="pub-tag">ood-generalization</span>
+                <span class="pub-tag">resource</span>
+                <span class="pub-tag">fmri</span>
+                <span class="pub-tag">image-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://doi.org/10.1038/s41467-026-69345-9" target="_blank" class="pub-res-link">Paper</a>
+                <a href="https://naturalscenesdataset.org/" target="_blank" class="pub-res-link">Data</a>
+                <a href="https://github.com/gifale95/NSD-synthetic" target="_blank" class="pub-res-link">Code</a>
+                <a href="https://www.youtube.com/watch?v=Wbdpvd2ST64&list=PLAkLSNuCebPNkL7uydrfXQWElS3oTtDCD&index=2&t=1291s" target="_blank" class="pub-res-link">Video</a>
+                <a href="https://drive.google.com/drive/folders/11XRR7_Bv1_BQbb8O80S3m0hFMcCHMvDv?usp=drive_link" target="_blank" class="pub-res-link">Poster</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="representational-content rsa eeg video-stimuli" data-year="2026">
+            <span class="pub-year">2026</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://openreview.net/forum?id=bSsNSfyj8m" target="_blank">The human brain as a dynamic mixture of expert models in video understanding</a></p>
+              <p class="pub-authors">Sartzetaki C, Zonneveld AW, Oyarzo P, <strong>Gifford AT</strong>, Cichy RM, Mettes P, Groen IIA</p>
+              <p class="pub-venue">International Conference on Learning Representations (ICLR)</p>
+              <div class="pub-tags">
+                <span class="pub-tag">representational-content</span>
+                <span class="pub-tag">rsa</span>
+                <span class="pub-tag">eeg</span>
+                <span class="pub-tag">video-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://openreview.net/forum?id=bSsNSfyj8m" target="_blank" class="pub-res-link">Paper</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="in-silico-neuroscience representational-content neural-control fmri image-stimuli" data-year="2025">
+            <span class="pub-year">2025</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://doi.org/10.1038/s41562-025-02252-z" target="_blank">In silico discovery of representational relationships across visual cortex</a></p>
+              <p class="pub-authors"><strong>Gifford AT</strong>, Jastrzębowska MA, Singer JDD, Cichy RM</p>
+              <p class="pub-venue">Nature Human Behavior</p>
+              <div class="pub-tags">
+                <span class="pub-tag">in-silico-neuroscience</span>
+                <span class="pub-tag">representational-content</span>
+                <span class="pub-tag">neural-control</span>
+                <span class="pub-tag">fmri</span>
+                <span class="pub-tag">image-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://doi.org/10.1038/s41562-025-02252-z" target="_blank" class="pub-res-link">Paper</a>
+                <a href="https://openneuro.org/datasets/ds005503" target="_blank" class="pub-res-link">Data</a>
+                <a href="https://github.com/gifale95/RNC" target="_blank" class="pub-res-link">Code</a>
+                <a href="https://drive.google.com/drive/folders/1ZTzbeZ1tNtBu2P6fgjbRY8-1KuY-0Kkr?usp=drive_link" target="_blank" class="pub-res-link">Code tutorial</a>
+                <a href="https://youtube.com/playlist?list=PLAkLSNuCebPOIe_bo6Mcf1aBRcinKbvn0&si=zaxkhDhJATFBmI7d" target="_blank" class="pub-res-link">Video</a>
+                <a href="https://drive.google.com/drive/folders/15luGBEtFPnUPPqtEhmWf0j2nJhpiiMB9?usp=drive_link" target="_blank" class="pub-res-link">Poster</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="in-silico-neuroscience" data-year="2025">
+            <span class="pub-year">2025</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://refubium.fu-berlin.de/handle/fub188/49748" target="_blank">In silico neuroscience: an emerging paradigm for brain discovery</a></p>
+              <p class="pub-authors"><strong>Gifford AT</strong></p>
+              <p class="pub-venue">PhD dissertation</p>
+              <div class="pub-tags">
+                <span class="pub-tag">in-silico-neuroscience</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://refubium.fu-berlin.de/handle/fub188/49748" target="_blank" class="pub-res-link">Dissertation</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="representational-content neural-encoding eeg image-stimuli" data-year="2025">
+            <span class="pub-year">2025</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://doi.org/10.7554/eLife.108915.1" target="_blank">The time course of visuo-semantic representations in the human brain is captured by combining vision and language models</a></p>
+              <p class="pub-authors">Rong B, <strong>Gifford AT</strong>, Düzel E, Cichy RM</p>
+              <p class="pub-venue">eLife</p>
+              <div class="pub-tags">
+                <span class="pub-tag">representational-content</span>
+                <span class="pub-tag">neural-encoding</span>
+                <span class="pub-tag">eeg</span>
+                <span class="pub-tag">image-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://doi.org/10.7554/eLife.108915.1" target="_blank" class="pub-res-link">Paper</a>
+                <a href="https://osf.io/3eayd/" target="_blank" class="pub-res-link">Data</a>
+                <a href="https://github.com/rbybryan/EEG_fusion_encoding" target="_blank" class="pub-res-link">Code</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="neural-encoding ood-generalization resource community-event fmri multimodal-stimuli" data-year="2025">
+            <span class="pub-year">2025</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://algonautsproject.com/" target="_blank">The Algonauts Project 2025 challenge: How the human brain makes sense of multimodal movies</a></p>
+              <p class="pub-authors"><strong>Gifford AT</strong>, Bersch D, St-Laurent M, Pinsard B, Boyle J, Bellec L, Oliva A, Roig G, Cichy RM</p>
+              <p class="pub-venue">arXiv</p>
+              <div class="pub-tags">
+                <span class="pub-tag">neural-encoding</span>
+                <span class="pub-tag">ood-generalization</span>
+                <span class="pub-tag">resource</span>
+                <span class="pub-tag">community-event</span>
+                <span class="pub-tag">fmri</span>
+                <span class="pub-tag">multimodal-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://algonautsproject.com/" target="_blank" class="pub-res-link">Website</a>
+                <a href="https://doi.org/10.48550/arXiv.2501.00504" target="_blank" class="pub-res-link">Paper</a>
+                <a href="https://github.com/courtois-neuromod/algonauts_2025.competitors" target="_blank" class="pub-res-link">Data & Code</a>
+                <a href="https://colab.research.google.com/drive/1fop0zvaLBLBagvJRC-HDqGDSgQElNWZB?usp=sharing" target="_blank" class="pub-res-link">Data tutorial</a>
+                <a href="https://youtube.com/playlist?list=PLAkLSNuCebPNJdqXJhRDdKM6BurtLGpqI&si=oyDxYR9vnAE44sDx" target="_blank" class="pub-res-link">Video</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="resource fmri video-stimuli" data-year="2024">
+            <span class="pub-year">2024</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://doi.org/10.1038/s41467-024-50310-3" target="_blank">Modeling short visual events through the BOLD moments video fMRI dataset and metadata</a></p>
+              <p class="pub-authors">Lahner B, Dwivedi K, Iamshchinina P, Graumann M, Lascelles A, Roig G, <strong>Gifford AT</strong>, Pan B, Jin S, Murty AR, Kay K, Oliva A, Cichy RM</p>
+              <p class="pub-venue">Nature Communications</p>
+              <div class="pub-tags">
+                <span class="pub-tag">resource</span>
+                <span class="pub-tag">fmri</span>
+                <span class="pub-tag">video-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://doi.org/10.1038/s41467-024-50310-3" target="_blank" class="pub-res-link">Paper</a>
+                <a href="https://openneuro.org/datasets/ds005165" target="_blank" class="pub-res-link">Data</a>
+                <a href="https://github.com/blahner/BOLDMomentsDataset" target="_blank" class="pub-res-link">Code</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="neural-alignment eeg image-stimuli" data-year="2024">
+            <span class="pub-year">2024</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://link.springer.com/chapter/10.1007/978-3-031-91578-9_18" target="_blank">Limited but consistent gains in adversarial robustness by co-training object recognition models with human EEG</a></p>
+              <p class="pub-authors">Guo M, Choksi B, Saba-Sadiya S, <strong>Gifford AT</strong>, Vilas MG, Cichy RM, Roig G</p>
+              <p class="pub-venue">European Conference on Computer Vision (ECCV)</p>
+              <div class="pub-tags">
+                <span class="pub-tag">neural-alignment</span>
+                <span class="pub-tag">eeg</span>
+                <span class="pub-tag">image-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://link.springer.com/chapter/10.1007/978-3-031-91578-9_18" target="_blank" class="pub-res-link">Paper</a>
+                <a href="https://osf.io/3jk45/" target="_blank" class="pub-res-link">Data</a>
+                <a href="https://github.com/nikiguo93/EEG_cotraining" target="_blank" class="pub-res-link">Code</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="neural-encoding ood-generalization resource community-event fmri image-stimuli" data-year="2023">
+            <span class="pub-year">2023</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://algonautsproject.com/" target="_blank">The Algonauts Project 2023 challenge: How the human brain makes sense of natural scenes</a></p>
+              <p class="pub-authors"><strong>Gifford AT</strong>, Lahner B, Saba-Sadiya S, Vilas MG, Lascelles A, Oliva A, Kay K, Roig G, Cichy RM</p>
+              <p class="pub-venue">arXiv</p>
+              <div class="pub-tags">
+                <span class="pub-tag">neural-encoding</span>
+                <span class="pub-tag">ood-generalization</span>
+                <span class="pub-tag">resource</span>
+                <span class="pub-tag">community-event</span>
+                <span class="pub-tag">fmri</span>
+                <span class="pub-tag">image-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://algonautsproject.com/" target="_blank" class="pub-res-link">Website</a>
+                <a href="https://doi.org/10.48550/arXiv.2301.03198" target="_blank" class="pub-res-link">Paper</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSehZkqZOUNk18uTjRTuLj7UYmRGz-OkdsU25AyO3Wm6iAb0VA/alreadyresponded" target="_blank" class="pub-res-link">Data</a>
+                <a href="https://github.com/gifale95/algonauts_2023" target="_blank" class="pub-res-link">Code</a>
+                <a href="https://colab.research.google.com/drive/1bLJGP3bAo_hAOwZPHpiSHKlt97X9xsUw?usp=share_link" target="_blank" class="pub-res-link">Data tutorial</a>
+                <a href="https://youtube.com/playlist?list=PLAkLSNuCebPNQXl2mQGjI0DmswZIgwNkh&si=9J8vySl1MxfQFSvx" target="_blank" class="pub-res-link">Video</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="pub-item" data-tags="neural-encoding neural-decoding resource eeg image-stimuli" data-year="2022">
+            <span class="pub-year">2022</span>
+            <div class="pub-content">
+              <p class="pub-title"><a href="https://doi.org/10.1016/j.neuroimage.2022.119754" target="_blank">A large and rich EEG dataset for modeling human visual object recognition</a></p>
+              <p class="pub-authors"><strong>Gifford AT</strong>, Dwivedi K, Roig G, Cichy RM</p>
+              <p class="pub-venue">NeuroImage</p>
+              <div class="pub-tags">
+                <span class="pub-tag">neural-encoding</span>
+                <span class="pub-tag">neural-decoding</span>
+                <span class="pub-tag">resource</span>
+                <span class="pub-tag">eeg</span>
+                <span class="pub-tag">image-stimuli</span>
+              </div>
+              <div class="pub-links">
+                <a href="https://doi.org/10.1016/j.neuroimage.2022.119754" target="_blank" class="pub-res-link">Paper</a>
+                <a href="https://osf.io/3jk45/" target="_blank" class="pub-res-link">Data</a>
+                <a href="https://github.com/gifale95/eeg_encoding" target="_blank" class="pub-res-link">Code</a>
+                <a href="https://colab.research.google.com/drive/1i1IKeP4cK3ViscP4b4kNOVo4kRoL8tf6?usp=sharing" target="_blank" class="pub-res-link">Data tutorial</a>
+                <a href="https://drive.google.com/drive/folders/13FJ-WL69NXvUJH1rjic6wjCEARnR6eTU?usp=drive_link" target="_blank" class="pub-res-link">Video</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACT ── -->
+    <section id="contact">
+      <div class="container">
+        <p class="section-label reveal">Contact</p>
+        <div class="reveal">
+          <p class="contact-intro">
+            I am happy to hear from prospective collaborators, students interested in computational approaches to neuroscience, or anyone curious about our work.
+          </p>
+          <div class="contact-links-grid">
+            <div class="contact-link-item">
+              <span class="contact-link-label">Email</span>
+              <a href="mailto:alessandro.gifford@gmail.com" class="contact-link-val">alessandro.gifford@gmail.com</a>
+            </div>
+            <div class="contact-link-item">
+              <span class="contact-link-label">Google Scholar</span>
+              <a href="https://scholar.google.com/citations?user=zJAplbQAAAAJ&hl=en&oi=ao" target="_blank" class="contact-link-val">scholar.google.com/alessandro-gifford</a>
+            </div>
+            <div class="contact-link-item">
+              <span class="contact-link-label">GitHub</span>
+              <a href="https://github.com/gifale95" target="_blank" class="contact-link-val">github.com/gifale95</a>
+            </div>
+            <div class="contact-link-item">
+              <span class="contact-link-label">Bluesky</span>
+              <a href="https://bsky.app/profile/alessandrogifford.bsky.social" target="_blank" class="contact-link-val">@alessandrogifford.bsky.social</a>
+            </div>
+            <div class="contact-link-item">
+              <span class="contact-link-label">YouTube</span>
+              <a href="https://www.youtube.com/@alegifford" target="_blank" class="contact-link-val">youtube.com/@alegifford</a>
+            </div>
+            <div class="contact-link-item">
+              <span class="contact-link-label">ORCID</span>
+              <a href="https://orcid.org/0000-0002-8923-9477" target="_blank" class="contact-link-val">orcid.org/0000-0002-8923-9477</a>
+            </div>
+          </div>
+          <a href="cv_gifford.pdf" target="_blank" rel="noopener" class="cv-section-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2.5 1.5h6L12 4.5V12.5H2.5V1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="none"/>
+              <path d="M8.5 1.5v3.5H12" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              <path d="M4.5 7h5M4.5 9h3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            Download CV
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 Alessandro Gifford. All rights reserved.</span>
+      <span class="footer-copy">Berlin</span>
+    </div>
+  </footer>
+
+  <script>
+    // ── THEME TOGGLE ────────────────────────────────────
+    const html    = document.documentElement;
+    const toggle  = document.getElementById('themeToggle');
+    const icon    = document.getElementById('themeIcon');
+    const label   = document.getElementById('themeLabel');
+    const CYCLE   = ['auto', 'light', 'dark'];
+    const ICONS   = { auto: '◐', light: '○', dark: '●' };
+    let current   = localStorage.getItem('theme') || 'auto';
+    function applyTheme(t) {
+      html.setAttribute('data-theme', t);
+      icon.textContent  = ICONS[t];
+      label.textContent = t;
+      localStorage.setItem('theme', t);
+    }
+    applyTheme(current);
+    toggle.addEventListener('click', () => {
+      current = CYCLE[(CYCLE.indexOf(current) + 1) % CYCLE.length];
+      applyTheme(current);
+    });
+
+    // ── HAMBURGER ───────────────────────────────────────
+    const ham        = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    ham.addEventListener('click', () => { ham.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+    function closeMobile() { ham.classList.remove('open'); mobileMenu.classList.remove('open'); }
+
+    // ── PUBLICATION FILTERS ─────────────────────────────
+    const pubItems = Array.from(document.querySelectorAll('.pub-item'));
+
+    // Auto-build year pills from data-year attributes
+    const years = [...new Set(pubItems.map(i => i.dataset.year))].sort((a, b) => b - a);
+    const filterRow = document.getElementById('filterRow');
+    years.forEach(y => {
+      const btn = document.createElement('button');
+      btn.className      = 'pill';
+      btn.dataset.type   = 'year';
+      btn.dataset.filter = y;
+      btn.textContent    = y;
+      filterRow.appendChild(btn);
+    });
+
+    let activeTopicFilter = 'all';
+    let activeYearFilter  = 'all-years';
+
+    function applyFilters() {
+      pubItems.forEach(item => {
+        const tags   = item.dataset.tags || '';
+        const year   = item.dataset.year  || '';
+        const topicOk = activeTopicFilter === 'all'       || tags.includes(activeTopicFilter);
+        const yearOk  = activeYearFilter  === 'all-years' || year === activeYearFilter;
+        item.classList.toggle('hidden', !(topicOk && yearOk));
+      });
+    }
+
+    document.querySelectorAll('.pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const type   = pill.dataset.type;
+        const filter = pill.dataset.filter;
+        document.querySelectorAll(`.pill[data-type="${type}"]`).forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        if (type === 'topic') activeTopicFilter = filter;
+        else                   activeYearFilter  = filter;
+        applyFilters();
+      });
+    });
+
+    // ── SCROLL REVEAL ───────────────────────────────────
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // ── NAV ACTIVE LINK ─────────────────────────────────
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('section[id]');
+    const navObs   = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          navLinks.forEach(a => { a.style.color = a.getAttribute('href') === `#${id}` ? 'var(--ink)' : ''; });
+        }
+      }),
+      { rootMargin: '-40% 0px -55% 0px' }
+    );
+    sections.forEach(s => navObs.observe(s));
+  </script>
+
+</body>
+</html>
