@@ -241,11 +241,10 @@
       text-decoration-color: currentColor;
       text-decoration-thickness: 1.5px;
       text-underline-offset: 3px;
-      transition: text-decoration-color .22s var(--ease);
+      transition: color .22s var(--ease), text-decoration-color .22s var(--ease);
     }
     .about-text a:hover {
-      /* Text color stays the same; only the underline shifts to a softer tone.
-         --ink-soft adapts automatically to whichever light/dark theme is active. */
+      color: var(--ink-soft);
       text-decoration-color: var(--ink-soft);
     }
 
