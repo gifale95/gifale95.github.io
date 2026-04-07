@@ -234,6 +234,21 @@
     .sidebar-item-title { font-size: .88rem; font-weight: 500; color: var(--ink); }
     .sidebar-item-sub { font-size: .8rem; color: var(--ink-soft); }
 
+    /* ── ABOUT LINKS ─────────────────────────────────── */
+    .about-text a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: currentColor;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 3px;
+      transition: text-decoration-color .22s var(--ease);
+    }
+    .about-text a:hover {
+      /* Text color stays the same; only the underline shifts to a softer tone.
+         --ink-soft adapts automatically to whichever light/dark theme is active. */
+      text-decoration-color: var(--ink-soft);
+    }
+
     /* ── PUBLICATIONS ────────────────────────────────── */
     .pub-filter-row {
       display: flex; align-items: center; gap: .4rem;
@@ -813,7 +828,7 @@
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ── THEME TOGGLE ────────────────────────────────────
     const html    = document.documentElement;
     const toggle  = document.getElementById('themeToggle');
@@ -895,14 +910,15 @@
     const navObs   = new IntersectionObserver(
       entries => entries.forEach(e => {
         if (e.isIntersecting) {
-          const id = e.target.id;
-          navLinks.forEach(a => { a.style.color = a.getAttribute('href') === `#${id}` ? 'var(--ink)' : ''; });
+          const id = e.target.getAttribute('id');
+          navLinks.forEach(a => {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+          });
         }
       }),
-      { rootMargin: '-40% 0px -55% 0px' }
+      { threshold: 0.3, rootMargin: '-56px 0px 0px 0px' }
     );
     sections.forEach(s => navObs.observe(s));
   </script>
-
 </body>
 </html>
