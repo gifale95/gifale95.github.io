@@ -272,7 +272,13 @@
       gap: 1.2rem; padding: 1.6rem 0; border-bottom: 1px solid var(--rule);
       transition: opacity .25s;
     }
+    .pub-item-last {
+      display: grid; grid-template-columns: 44px 1fr;
+      gap: 1.2rem; padding: 1.6rem 0;
+      transition: opacity .25s;
+    }
     .pub-item.hidden { display: none; }
+    .pub-item-last.hidden { display: none; }
     .pub-year { font-family: 'DM Mono', monospace; font-size: .7rem; color: var(--ink-soft); padding-top: .2rem; }
     .pub-title { font-size: .95rem; font-weight: 500; line-height: 1.5; color: var(--ink); margin-bottom: .35rem; }
     .pub-authors { font-size: .82rem; color: var(--ink-soft); font-weight: 300; margin-bottom: .25rem; }
@@ -360,6 +366,7 @@
       .contact-link-item { padding-left: 0 !important; border-left: none !important; }
 
       .pub-item { grid-template-columns: 38px 1fr; }
+      .pub-item-last { grid-template-columns: 38px 1fr; }
       .footer-inner { flex-direction: column; align-items: flex-start; gap: .5rem; }
       .mobile-menu { padding: 1.5rem 1.25rem 2rem; }
     }
@@ -745,7 +752,7 @@
             </div>
           </div>
 
-          <div class="pub-item" data-tags="neural-encoding neural-decoding resource eeg image-stimuli" data-year="2022">
+          <div class="pub-item-last" data-tags="neural-encoding neural-decoding resource eeg image-stimuli" data-year="2022">
             <span class="pub-year">2022</span>
             <div class="pub-content">
               <p class="pub-title"><a href="https://doi.org/10.1016/j.neuroimage.2022.119754" target="_blank">A large and rich EEG dataset for modeling human visual object recognition</a></p>
@@ -855,7 +862,8 @@
     function closeMobile() { ham.classList.remove('open'); mobileMenu.classList.remove('open'); }
 
     // ── PUBLICATION FILTERS ─────────────────────────────
-    const pubItems = Array.from(document.querySelectorAll('.pub-item'));
+    // const pubItems = Array.from(document.querySelectorAll('.pub-item'));
+    const pubItems = Array.from(document.querySelectorAll('.pub-item, .pub-item-last'));
 
     // Auto-build year pills from data-year attributes
     const years = [...new Set(pubItems.map(i => i.dataset.year))].sort((a, b) => b - a);
